@@ -81,7 +81,15 @@ axios.interceptors.response.use(
 	(response) => response,
 	async (error) => {
 		const originalRequest = error.config;
-		if (error.response?.status === 401 && !originalRequest._retry) {
+		const requestUrl = originalRequest?.url || "";
+		const isAuthEndpoint = [
+			"/auth/login",
+			"/auth/signup",
+			"/auth/logout",
+			"/auth/refresh-token",
+		].some((endpoint) => requestUrl.includes(endpoint));
+
+		if (error.response?.status === 401 && !originalRequest._retry && !isAuthEndpoint) {
 			originalRequest._retry = true;
 
 			try {
