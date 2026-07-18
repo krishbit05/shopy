@@ -1,7 +1,10 @@
 import axios from "axios";
 
+const API_BASE_URL =
+	import.meta.env.VITE_API_BASE_URL || "https://shopy-b.onrender.com/api";
+
 const axiosInstance = axios.create({
-	baseURL: import.meta.mode === "development" ? "http://localhost:5000/api" : "/api",
+	baseURL: API_BASE_URL,
 	withCredentials: true, // send cookies to the server
 });
 
